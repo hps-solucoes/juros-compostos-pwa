@@ -1,4 +1,4 @@
-const CACHE_NAME = 'juros-compostos-v3';
+const CACHE_NAME = 'juros-compostos-v4';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
@@ -8,7 +8,9 @@ const ASSETS_TO_CACHE = [
     'https://cdn.jsdelivr.net/npm/chart.js',
     'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap',
     '/icons/icon-192.png',
-    '/icons/icon-512.png'
+    '/icons/icon-512.png',
+    '/icons/icon-192-dark.png',
+    '/icons/icon-512-dark.png'
 ];
 
 self.addEventListener('install', (event) => {
