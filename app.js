@@ -20,7 +20,17 @@ document.addEventListener('DOMContentLoaded', () => {
 let evolutionChart;
 
 function initializeChart() {
-    const ctx = document.getElementById('evolutionChart').getContext('2d');
+    const ctx = document.getElementById('evolutionChart');
+    
+    // Verifica se o Chart.js está carregado
+    if (typeof Chart === 'undefined') {
+        console.error('Chart.js não foi carregado corretamente');
+        return;
+    }
+    
+    // Configuração otimizada para mobile
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    const fontsize = isMobile ? 10 : 12;
     
     evolutionChart = new Chart(ctx, {
         type: 'line',
@@ -32,6 +42,7 @@ function initializeChart() {
                     data: [],
                     borderColor: 'rgba(75, 192, 192, 1)',
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 2,
                     tension: 0.1,
                     fill: true
                 },
@@ -40,6 +51,7 @@ function initializeChart() {
                     data: [],
                     borderColor: 'rgba(54, 162, 235, 1)',
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderWidth: 2,
                     tension: 0.1,
                     fill: true
                 }
@@ -47,15 +59,30 @@ function initializeChart() {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: fontsize
+                        },
+                        boxWidth: 12
+                    }
+                },
                 title: {
                     display: true,
                     text: 'Evolução do Investimento',
                     font: {
-                        size: 16
+                        size: isMobile ? 14 : 16
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 10
                     }
                 },
                 tooltip: {
+                    enabled: !isMobile,
                     callbacks: {
                         label: function(context) {
                             let label = context.dataset.label || '';
@@ -72,12 +99,23 @@ function initializeChart() {
                 }
             },
             scales: {
+                x: {
+                    ticks: {
+                        font: {
+                            size: fontsize
+                        }
+                    }
+                },
                 y: {
                     ticks: {
+                        font: {
+                            size: fontsize
+                        },
                         callback: function(value) {
                             return new Intl.NumberFormat('pt-BR', {
                                 style: 'currency',
-                                currency: 'BRL'
+                                currency: 'BRL',
+                                maximumFractionDigits: 0
                             }).format(value);
                         }
                     }
@@ -126,6 +164,11 @@ function calculateCompoundInterest() {
 }
 
 function updateChart(months, investedValues, accumulatedValues) {
+    if (!evolutionChart) {
+        console.error('Gráfico não foi inicializado corretamente');
+        return;
+    }
+    
     evolutionChart.data.labels = months;
     evolutionChart.data.datasets[0].data = investedValues;
     evolutionChart.data.datasets[1].data = accumulatedValues;

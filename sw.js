@@ -1,4 +1,4 @@
-const CACHE_NAME = 'juros-compostos-v2';
+const CACHE_NAME = 'juros-compostos-v3';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
@@ -6,6 +6,7 @@ const ASSETS_TO_CACHE = [
     '/app.js',
     '/manifest.json',
     'https://cdn.jsdelivr.net/npm/chart.js',
+    'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap',
     '/icons/icon-192.png',
     '/icons/icon-512.png'
 ];
